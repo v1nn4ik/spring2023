@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: development
+
+server:
+  port: 1111
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+
+client:
+  name: Vinnik Konstantin
+  username: v1nn4ik
+  number: 1
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+
+client:
+  name: Ivanov Ivan
+  username: Vanek007
+  number: 2
