@@ -1,6 +1,19 @@
 spring:
   profiles:
     active: development
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/users
+    username: postgres
+    password: 210800
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 1111
@@ -9,18 +22,8 @@ spring:
   config:
     activate:
       on-profile: development
-
-client:
-  name: Vinnik Konstantin
-  username: v1nn4ik
-  number: 1
 ---
 spring:
   config:
     activate:
       on-profile: production
-
-client:
-  name: Ivanov Ivan
-  username: Vanek007
-  number: 2
