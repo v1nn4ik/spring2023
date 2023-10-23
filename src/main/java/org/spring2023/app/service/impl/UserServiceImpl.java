@@ -19,25 +19,25 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User saveUser(UserEntity user) { //Сохранить пользователя в систему
+    public User saveUser(UserEntity user) {
         log.info("\nНовый пользователь добавлен");
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long id) { //Удалить пользователя из системы
+    public void deleteUser(Long id) {
         log.info("\nПользователь №" + id + " удален");
         userRepository.deleteById(id);
     }
 
     @Override
-    public List<UserEntity> findAllUsers() { //Вывод всех пользователей
+    public List<UserEntity> findAllUsers() {
         log.info("\nЗапрос на вывод всех пользователей выполнен");
-        return userRepository.findAll();
+        return (List<UserEntity>) userRepository.findAll();
     }
 
     @Override
-    public Optional<UserEntity> findById(Long id) { //Найти пользователя по id
+    public Optional<UserEntity> findById(Long id) {
         log.info("\nПользователь №" + id + " выведен");
         return userRepository.findById(id);
     }

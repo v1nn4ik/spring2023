@@ -2,10 +2,10 @@ spring:
   profiles:
     active: development
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/users
-    username: postgres
-    password: 210800
+    url: jdbc:h2:mem:spring2023
+    username: admin
+    password: admin
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,7 +13,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
 
 server:
   port: 1111
@@ -26,4 +29,9 @@ spring:
 spring:
   config:
     activate:
-      on-profile: production
+      on-profile: test
+  sql:
+    init:
+      platform: h2
+      data-locations: classpath:data-h2.sql
+      mode: always

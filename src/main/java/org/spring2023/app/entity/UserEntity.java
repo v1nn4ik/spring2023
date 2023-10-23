@@ -5,8 +5,10 @@ import lombok.*;
 import org.spring2023.domain.User;
 
 @Entity
-@Getter
-@Table(schema = "common", name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
 public class UserEntity implements User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
