@@ -3,42 +3,34 @@ package org.spring2023.app.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.spring2023.app.entity.UserEntity;
-import org.spring2023.app.UserRepository;
+import org.spring2023.app.service.repository.UserRepository;
 import org.spring2023.app.service.UserService;
-import org.spring2023.domain.User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
-
-    private final UserRepository userRepository;
-
-    @Override
-    public User saveUser(UserEntity user) {
-        log.info("\nНовый пользователь добавлен");
-        return userRepository.save(user);
-    }
+    private UserRepository userRepository;
 
     @Override
-    public void deleteUser(Long id) {
-        log.info("\nПользователь №" + id + " удален");
-        userRepository.deleteById(id);
-    }
-
-    @Override
-    public List<UserEntity> findAllUsers() {
-        log.info("\nЗапрос на вывод всех пользователей выполнен");
-        return (List<UserEntity>) userRepository.findAll();
-    }
-
-    @Override
-    public Optional<UserEntity> findById(Long id) {
-        log.info("\nПользователь №" + id + " выведен");
-        return userRepository.findById(id);
+    public UserEntity update(UserEntity userEntity, Long id) {
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            UserEntity existUser = optionalUser.get();
+            existUser.setUsername(userEntity.getUsername());
+            existUser.setPassword(userEntity.getPassword());
+            existUser.setName(userEntity.getName());
+            existUser.setSurname(userEntity.getSurname());
+            existUser.setBirthDate(userEntity.getBirthDate());
+            existUser.setPhoto(userEntity.getPhoto());
+            existUser.setCity(userEntity.getCity());
+            log.info("\nПользователь №" + id + " изменен");
+            return userRepository.save(existUser);
+        } else {
+            throw new RuntimeException("\nПользователь с №" + id + " не найден");
+        }
     }
 }

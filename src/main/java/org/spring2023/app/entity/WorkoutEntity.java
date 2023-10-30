@@ -1,8 +1,6 @@
-/**
- * Временно закомментировал, так как не доделал, а тесты и прочее не работают
-
 package org.spring2023.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,9 +37,13 @@ public class WorkoutEntity {
     @Column(name = "approaches")
     private int approaches;
 
-    @Column(name = "exercises")
-    @OneToMany(mappedBy = "workout")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workout")
     private List<ExerciseEntity> exercises;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Column(name = "equipment")
     private String equipment;
@@ -64,4 +66,3 @@ public class WorkoutEntity {
     @Column(name = "location")
     private String location;
 }
- */

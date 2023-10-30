@@ -1,7 +1,6 @@
-/**
- * Временно закомментировал, так как не доделал, а тесты и прочее не работают
 package org.spring2023.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,14 +11,16 @@ import org.spring2023.domain.Exercise;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "exercises")
 public class ExerciseEntity implements Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "workout_id")
+    @Column(name = "exercise_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="workout_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name = "workout_id")
     private WorkoutEntity workout;
 
     @Column(name = "name")
@@ -43,4 +44,3 @@ public class ExerciseEntity implements Exercise {
     @Column(name = "equipment")
     private String equipment;
 }
-*/

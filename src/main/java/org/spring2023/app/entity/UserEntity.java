@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.spring2023.domain.User;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,6 +16,9 @@ public class UserEntity implements User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
     private Long id;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<WorkoutEntity> workouts;
 
     @Column(name = "username")
     private String username;
