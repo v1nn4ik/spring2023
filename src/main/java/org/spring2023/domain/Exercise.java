@@ -1,5 +1,7 @@
 package org.spring2023.domain;
 
+import java.time.Duration;
+
 /**
  * Интерфейс с упражнениями
  */
@@ -20,13 +22,13 @@ public interface Exercise {
      * Сложность упражнения (от 0 до 5)
      * @return возвращает сложность упражнения
      */
-    int getDifficulty();
+    Difficulty getDifficulty();
 
     /**
      * Длительность упражнения
      * @return возвращает длительность упражнения
      */
-    String getDuration();
+    Duration getDuration();
 
     /**
      * Количество подходов в упражнении
@@ -40,3 +42,5 @@ public interface Exercise {
      */
     String getEquipment();
 }
+
+

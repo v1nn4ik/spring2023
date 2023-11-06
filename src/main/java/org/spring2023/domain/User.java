@@ -1,5 +1,7 @@
 package org.spring2023.domain;
 
+import java.util.Calendar;
+
 /**
  * Интерфейс профиля пользователя с методами
  */
@@ -32,7 +34,7 @@ public interface User {
      * Метод получения даты рождения пользователя
      * @return возвращает дату рождения пользователя
      * */
-    String getBirthDate();
+    Calendar getBirthDate();
 
     /**
      * Метод получения фото пользователя

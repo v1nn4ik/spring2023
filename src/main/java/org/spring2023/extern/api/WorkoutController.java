@@ -13,42 +13,50 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user/workout")
+@RequestMapping("/user")
 @AllArgsConstructor
 public class WorkoutController {
-//    private final WorkoutRepository workoutRepository;
-//    private final WorkoutServiceImpl workoutService;
-//
-//    private final ExerciseRepository exerciseRepository;
-//
-//    private final UserRepository userRepository;
-//
-//    @PostMapping("/{id}")
-//    public WorkoutEntity saveWorkout(@RequestBody WorkoutEntity workout, @PathVariable Long id) {
-//        Optional<UserEntity> user = userRepository.findById(id);
-//        workout.setUser(user.get());
-//        return workoutRepository.save(workout);
-//    }
-//
-//    @GetMapping()
-//    public Iterable<WorkoutEntity> getWorkout() {
-//        return workoutRepository.findAll();
-//    }
-//
-//    @PutMapping("/{id}")
-//    public WorkoutEntity updateWorkout(@RequestBody WorkoutEntity workout, @PathVariable Long id) {
-//        return workoutService.update(workout, id);
-//    }
-//
-//    @PostMapping("/{id}")
-//    public ExerciseEntity saveExercise(@RequestBody ExerciseEntity exercise, @PathVariable Long id) {
-//        Optional<WorkoutEntity> workout = workoutRepository.findById(id);
-//        exercise.setWorkout(workout.get());
-//        return exerciseRepository.save(exercise);
-//    }
-//
-//    @GetMapping("/exercises")
-//    public Iterable<ExerciseEntity> getExercise() {
-//        return exerciseRepository.findAll();
-//    }
+    private final WorkoutRepository workoutRepository;
+    private final WorkoutServiceImpl workoutService;
+
+    private final ExerciseRepository exerciseRepository;
+
+    private final UserRepository userRepository;
+
+    @PostMapping("/{id}/workout")
+    public WorkoutEntity saveWorkout(@RequestBody WorkoutEntity workout, @PathVariable Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            workout.setUser(user.get());
+        } else {
+            throw new RuntimeException("Пользователь №" + id + "не найден");
+        }
+        return workoutRepository.save(workout);
+    }
+
+    @GetMapping("/workout")
+    public Iterable<WorkoutEntity> getWorkout() {
+        return workoutRepository.findAll();
+    }
+
+    @PutMapping("/workout/{id}")
+    public WorkoutEntity updateWorkout(@RequestBody WorkoutEntity workout, @PathVariable Long id) {
+        return workoutService.update(workout, id);
+    }
+
+    @PostMapping("/workout/{id}")
+    public ExerciseEntity saveExercise(@RequestBody ExerciseEntity exercise, @PathVariable Long id) {
+        Optional<WorkoutEntity> workout = workoutRepository.findById(id);
+        if (workout.isPresent()) {
+            exercise.setWorkout(workout.get());
+        } else {
+            throw new RuntimeException("Тренировка №" + id + "не найдена");
+        }
+        return exerciseRepository.save(exercise);
+    }
+
+    @GetMapping("/workout/exercises")
+    public Iterable<ExerciseEntity> getExercise() {
+        return exerciseRepository.findAll();
+    }
 }

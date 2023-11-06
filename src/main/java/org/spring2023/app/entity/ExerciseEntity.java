@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.spring2023.domain.Difficulty;
 import org.spring2023.domain.Exercise;
+
+import java.time.Duration;
 
 @Entity
 @Data
@@ -33,10 +36,10 @@ public class ExerciseEntity implements Exercise {
     private String purpose;
 
     @Column(name = "difficulty")
-    private int difficulty;
+    private Difficulty difficulty;
 
     @Column(name = "duration")
-    private String duration;
+    private Duration duration;
 
     @Column(name = "approaches")
     private int approaches;

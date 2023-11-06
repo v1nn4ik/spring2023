@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.spring2023.domain.Difficulty;
 
+import java.time.Duration;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -29,10 +32,10 @@ public class WorkoutEntity {
     private String purpose;
 
     @Column(name = "difficulty")
-    private int difficulty;
+    private Difficulty difficulty;
 
     @Column(name = "duration")
-    private String duration;
+    private Duration duration;
 
     @Column(name = "approaches")
     private int approaches;
@@ -58,10 +61,7 @@ public class WorkoutEntity {
     private String note;
 
     @Column(name = "date")
-    private String date;
-
-    @Column(name = "time")
-    private String time;
+    private Calendar date;
 
     @Column(name = "location")
     private String location;

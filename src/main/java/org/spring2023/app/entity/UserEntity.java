@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.spring2023.domain.User;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -33,7 +34,7 @@ public class UserEntity implements User {
     private String surname;
 
     @Column(name = "birth_date")
-    private String birthDate;
+    private Calendar birthDate;
 
     @Column(name = "photo")
     private String photo;

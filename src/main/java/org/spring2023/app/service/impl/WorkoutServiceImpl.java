@@ -31,7 +31,6 @@ public class WorkoutServiceImpl implements WorkoutService {
             existWorkout.setPhoto(workoutEntity.getPhoto());
             existWorkout.setNote(workoutEntity.getNote());
             existWorkout.setDate(workoutEntity.getDate());
-            existWorkout.setTime(workoutEntity.getTime());
             existWorkout.setLocation(workoutEntity.getLocation());
             log.info("\nТренировка №" + id + " изменена");
             return workoutRepository.save(existWorkout);
