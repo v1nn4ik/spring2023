@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.spring2023.domain.Difficulty;
 
 import java.time.Duration;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -61,7 +61,7 @@ public class WorkoutEntity {
     private String note;
 
     @Column(name = "date")
-    private Calendar date;
+    private LocalDate date;
 
     @Column(name = "location")
     private String location;

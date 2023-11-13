@@ -2,15 +2,21 @@ package org.spring2023.extern.api;
 
 import lombok.AllArgsConstructor;
 import org.spring2023.app.entity.UserEntity;
-import org.spring2023.app.service.repository.ExerciseRepository;
-import org.spring2023.app.service.repository.UserRepository;
-import org.spring2023.app.service.repository.WorkoutRepository;
+import org.spring2023.app.repository.ExerciseRepository;
+import org.spring2023.app.repository.UserRepository;
+import org.spring2023.app.repository.WorkoutRepository;
 import org.spring2023.app.entity.ExerciseEntity;
 import org.spring2023.app.entity.WorkoutEntity;
 import org.spring2023.app.service.impl.WorkoutServiceImpl;
+import org.spring2023.extern.converter.ExerciseConverter;
+import org.spring2023.extern.converter.WorkoutConverter;
+import org.spring2023.extern.dto.ExerciseDto;
+import org.spring2023.extern.dto.WorkoutDto;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -18,45 +24,64 @@ import java.util.Optional;
 public class WorkoutController {
     private final WorkoutRepository workoutRepository;
     private final WorkoutServiceImpl workoutService;
+    private final WorkoutConverter workoutConverter;
 
     private final ExerciseRepository exerciseRepository;
+    private final ExerciseConverter exerciseConverter;
 
     private final UserRepository userRepository;
 
     @PostMapping("/{id}/workout")
-    public WorkoutEntity saveWorkout(@RequestBody WorkoutEntity workout, @PathVariable Long id) {
+    public WorkoutDto saveWorkout(@RequestBody WorkoutDto workoutDto, @PathVariable Long id) {
+        WorkoutEntity workoutEntity = workoutConverter.toEntity(workoutDto);
         Optional<UserEntity> user = userRepository.findById(id);
+
         if (user.isPresent()) {
-            workout.setUser(user.get());
+            workoutEntity.setUser(user.get());
         } else {
             throw new RuntimeException("Пользователь №" + id + "не найден");
         }
-        return workoutRepository.save(workout);
+
+        return workoutConverter.toDto(workoutRepository.save(workoutEntity));
     }
 
     @GetMapping("/workout")
-    public Iterable<WorkoutEntity> getWorkout() {
-        return workoutRepository.findAll();
+    public List<WorkoutDto> getWorkout() {
+        Iterable<WorkoutEntity> workoutEntities = workoutRepository.findAll();
+        List<WorkoutDto> workoutDtos = new ArrayList<>();
+        for (WorkoutEntity workout : workoutEntities) {
+            workoutDtos.add(workoutConverter.toDto(workout));
+        }
+        return workoutDtos;
     }
 
     @PutMapping("/workout/{id}")
-    public WorkoutEntity updateWorkout(@RequestBody WorkoutEntity workout, @PathVariable Long id) {
-        return workoutService.update(workout, id);
+    public WorkoutDto updateWorkout(@RequestBody WorkoutDto workoutDto, @PathVariable Long id) {
+        WorkoutEntity workoutEntity = workoutConverter.toEntity(workoutDto);
+        return workoutConverter.toDto(workoutService.update(workoutEntity, id));
     }
 
     @PostMapping("/workout/{id}")
-    public ExerciseEntity saveExercise(@RequestBody ExerciseEntity exercise, @PathVariable Long id) {
+    public ExerciseDto saveExercise(@RequestBody ExerciseDto exerciseDto, @PathVariable Long id) {
+        ExerciseEntity exerciseEntity = exerciseConverter.toEntity(exerciseDto);
         Optional<WorkoutEntity> workout = workoutRepository.findById(id);
+
         if (workout.isPresent()) {
-            exercise.setWorkout(workout.get());
+            exerciseEntity.setWorkout(workout.get());
         } else {
             throw new RuntimeException("Тренировка №" + id + "не найдена");
         }
-        return exerciseRepository.save(exercise);
+
+        return exerciseConverter.toDto(exerciseRepository.save(exerciseEntity));
     }
 
     @GetMapping("/workout/exercises")
-    public Iterable<ExerciseEntity> getExercise() {
-        return exerciseRepository.findAll();
+    public List<ExerciseDto> getExercise() {
+        Iterable<ExerciseEntity> exerciseEntities = exerciseRepository.findAll();
+        List<ExerciseDto> exerciseDtos =  new ArrayList<>();
+        for (ExerciseEntity exercise : exerciseEntities) {
+            exerciseDtos.add(exerciseConverter.toDto(exercise));
+        }
+        return exerciseDtos;
     }
 }

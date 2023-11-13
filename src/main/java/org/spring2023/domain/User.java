@@ -1,6 +1,6 @@
 package org.spring2023.domain;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  * Интерфейс профиля пользователя с методами
@@ -34,7 +34,7 @@ public interface User {
      * Метод получения даты рождения пользователя
      * @return возвращает дату рождения пользователя
      * */
-    Calendar getBirthDate();
+    LocalDate getBirthDate();
 
     /**
      * Метод получения фото пользователя

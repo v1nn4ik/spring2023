@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.spring2023.app.entity.UserEntity;
 import org.spring2023.app.entity.WorkoutEntity;
-import org.spring2023.app.service.repository.WorkoutRepository;
+import org.spring2023.app.repository.WorkoutRepository;
 import org.spring2023.domain.Difficulty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,8 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
@@ -32,15 +33,14 @@ class WorkoutServiceImplTest {
     @DisplayName("Update Workout Test")
     @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
     void update() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, Calendar.NOVEMBER, 6, 19, 38, 27);
+        var date = LocalDate.of(2003, Month.NOVEMBER, 13);
         workoutRepository.save(new WorkoutEntity(1L, "T1", "type",
                 "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
-                "equipment", 0, "photo", "note", calendar, "location"));
+                "equipment", 0, "photo", "note", date, "location"));
 
         WorkoutEntity newWorkout = new WorkoutEntity(1L, "T2", "type2",
                 "purpose2", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 1, new ArrayList<>(), new UserEntity(),
-                "equipment2",1, "photo2", "note2", calendar, "location2");
+                "equipment2",1, "photo2", "note2", date, "location2");
 
         workoutService.update(newWorkout, 1L);
 
