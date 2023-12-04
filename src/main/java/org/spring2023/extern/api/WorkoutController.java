@@ -8,6 +8,7 @@ import org.spring2023.app.repository.WorkoutRepository;
 import org.spring2023.app.entity.ExerciseEntity;
 import org.spring2023.app.entity.WorkoutEntity;
 import org.spring2023.app.service.impl.WorkoutServiceImpl;
+import org.spring2023.domain.Difficulty;
 import org.spring2023.extern.converter.ExerciseConverter;
 import org.spring2023.extern.converter.WorkoutConverter;
 import org.spring2023.extern.dto.ExerciseDto;
@@ -83,5 +84,35 @@ public class WorkoutController {
             exerciseDtos.add(exerciseConverter.toDto(exercise));
         }
         return exerciseDtos;
+    }
+
+    @GetMapping("/workout/difficulty/{difficulty}")
+    public List<WorkoutDto> getWorkoutByDifficulty(@PathVariable Difficulty difficulty) {
+        List<WorkoutEntity> workoutEntities = workoutService.getWorkoutByDifficulty(difficulty);
+        List<WorkoutDto> workoutDtos = new ArrayList<>();
+        for (WorkoutEntity workout : workoutEntities) {
+            workoutDtos.add(workoutConverter.toDto(workout));
+        }
+        return workoutDtos;
+    }
+
+    @GetMapping("/workout/difficulty_up")
+    public List<WorkoutDto> getSortedByDifficultyAsc() {
+        List<WorkoutEntity> workoutEntities = workoutService.getSortedWorkoutByDifficultyAsc();
+        List<WorkoutDto> workoutDtos = new ArrayList<>();
+        for (WorkoutEntity workout : workoutEntities) {
+            workoutDtos.add(workoutConverter.toDto(workout));
+        }
+        return workoutDtos;
+    }
+
+    @GetMapping("/workout/difficulty_down")
+    public List<WorkoutDto> getSortedByDifficultyDesc() {
+        List<WorkoutEntity> workoutEntities = workoutService.getSortedWorkoutByDifficultyDesc();
+        List<WorkoutDto> workoutDtos = new ArrayList<>();
+        for (WorkoutEntity workout : workoutEntities) {
+            workoutDtos.add(workoutConverter.toDto(workout));
+        }
+        return workoutDtos;
     }
 }

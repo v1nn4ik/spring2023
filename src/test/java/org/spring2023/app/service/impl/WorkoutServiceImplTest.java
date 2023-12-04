@@ -16,6 +16,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
@@ -60,5 +61,90 @@ class WorkoutServiceImplTest {
         } else {
             throw new RuntimeException();
         }
+    }
+    @Test
+    @DisplayName("Get By Difficulty Workout Test")
+    @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+    void getWorkoutByDifficulty() {
+        var date = LocalDate.of(2003, Month.NOVEMBER, 13);
+        workoutRepository.save(new WorkoutEntity(1L, "T1", "type",
+                "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(2L, "T2", "type",
+                "purpose", Difficulty.ADVANCED, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(3L, "T3", "type",
+                "purpose", Difficulty.MIDDLE, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(4L, "T3", "type",
+                "purpose", Difficulty.MIDDLE, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(5L, "T1", "type",
+                "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        List<WorkoutEntity> workoutsByDifficulty = workoutService.getWorkoutByDifficulty(Difficulty.MIDDLE);
+        if (workoutsByDifficulty.size() == 2) {
+            for (WorkoutEntity workout : workoutsByDifficulty) {
+                assertEquals(Difficulty.MIDDLE, workout.getDifficulty());
+            }
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+    @Test
+    @DisplayName("Get Sorted Workout By Difficulty Asc")
+    @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+    void getSortedWorkoutByDifficultyAsc() {
+        var date = LocalDate.of(2003, Month.NOVEMBER, 13);
+        workoutRepository.save(new WorkoutEntity(1L, "T1", "type",
+                "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(2L, "T2", "type",
+                "purpose", Difficulty.ADVANCED, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(3L, "T3", "type",
+                "purpose", Difficulty.MIDDLE, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(4L, "T4", "type",
+                "purpose", Difficulty.MIDDLE, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(5L, "T5", "type",
+                "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        List<WorkoutEntity> workoutByDifficulty = workoutService.getSortedWorkoutByDifficultyAsc();
+        assertEquals("T1", workoutByDifficulty.get(0).getName());
+        assertEquals("T5", workoutByDifficulty.get(1).getName());
+        assertEquals("T3", workoutByDifficulty.get(2).getName());
+        assertEquals("T4", workoutByDifficulty.get(3).getName());
+        assertEquals("T2", workoutByDifficulty.get(4).getName());
+    }
+
+    @Test
+    @DisplayName("Get Sorted Workout By Difficulty Desc")
+    @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+    void getSortedWorkoutByDifficultyDesc() {
+        var date = LocalDate.of(2003, Month.NOVEMBER, 13);
+        workoutRepository.save(new WorkoutEntity(1L, "T1", "type",
+                "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(2L, "T2", "type",
+                "purpose", Difficulty.ADVANCED, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(3L, "T3", "type",
+                "purpose", Difficulty.MIDDLE, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(4L, "T4", "type",
+                "purpose", Difficulty.MIDDLE, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        workoutRepository.save(new WorkoutEntity(5L, "T5", "type",
+                "purpose", Difficulty.ELEMENTARY, Duration.ofMinutes(1), 0, new ArrayList<>(), new UserEntity(),
+                "equipment", 0, "photo", "note", date, "location"));
+        List<WorkoutEntity> workoutByDifficulty = workoutService.getSortedWorkoutByDifficultyDesc();
+        assertEquals("T2", workoutByDifficulty.get(0).getName());
+        assertEquals("T3", workoutByDifficulty.get(1).getName());
+        assertEquals("T4", workoutByDifficulty.get(2).getName());
+        assertEquals("T1", workoutByDifficulty.get(3).getName());
+        assertEquals("T5", workoutByDifficulty.get(4).getName());
     }
 }

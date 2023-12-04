@@ -2,9 +2,7 @@ package org.spring2023.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.spring2023.domain.Difficulty;
 
 import java.time.Duration;
@@ -12,7 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "workouts")
@@ -43,7 +42,7 @@ public class WorkoutEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "workout")
     private List<ExerciseEntity> exercises;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "user_id")
     private UserEntity user;

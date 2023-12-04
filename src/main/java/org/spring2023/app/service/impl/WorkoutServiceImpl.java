@@ -5,7 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.spring2023.app.repository.WorkoutRepository;
 import org.spring2023.app.entity.WorkoutEntity;
 import org.spring2023.app.service.WorkoutService;
+import org.spring2023.domain.Difficulty;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -31,5 +35,17 @@ public class WorkoutServiceImpl implements WorkoutService {
             log.info("\nТренировка №" + id + " изменена");
             return workoutRepository.save(workout);
         }).orElseThrow(() -> new RuntimeException("\nТренировка с №" + id + " не найдена"));
+    }
+
+    public List<WorkoutEntity> getWorkoutByDifficulty(Difficulty difficulty) {
+        return workoutRepository.findByDifficulty(difficulty);
+    }
+
+    public List<WorkoutEntity> getSortedWorkoutByDifficultyAsc() {
+        return workoutRepository.findAll(Sort.by(Sort.Direction.ASC, "difficulty"));
+    }
+
+    public List<WorkoutEntity> getSortedWorkoutByDifficultyDesc() {
+        return workoutRepository.findAll(Sort.by(Sort.Direction.DESC, "difficulty"));
     }
 }

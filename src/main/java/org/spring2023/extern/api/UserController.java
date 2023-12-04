@@ -50,4 +50,34 @@ public class UserController {
     public UserDto findById(@PathVariable("id") Long id) {
         return userConverter.toDto(userRepository.findById(id).get());
     }
+
+    @GetMapping("/city/{city}")
+    public List<UserDto> findByCity(@PathVariable String city) {
+        List<UserEntity> userEntities = userService.getUserByCity(city);
+        List<UserDto> userDtos = new ArrayList<>();
+        for (UserEntity user : userEntities) {
+            userDtos.add(userConverter.toDto(user));
+        }
+        return userDtos;
+    }
+
+    @GetMapping("/birth_date_up")
+    public List<UserDto> findSortedByBirthDateAsc() {
+        List<UserEntity> userEntities = userService.getSortedUserByBirthDateAsc();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (UserEntity user : userEntities) {
+            userDtos.add(userConverter.toDto(user));
+        }
+        return userDtos;
+    }
+
+    @GetMapping("/birth_date_down")
+    public List<UserDto> findSortedByBirthDateDesc() {
+        List<UserEntity> userEntities = userService.getSortedUserByBirthDateDesc();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (UserEntity user : userEntities) {
+            userDtos.add(userConverter.toDto(user));
+        }
+        return userDtos;
+    }
 }

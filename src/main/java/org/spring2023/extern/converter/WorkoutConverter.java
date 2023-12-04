@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class WorkoutConverter {
     public WorkoutDto toDto(WorkoutEntity workoutEntity) {
         WorkoutDto workoutDto = new WorkoutDto();
+        workoutDto.setOwner(workoutEntity.getUser().getName() + " " + workoutEntity.getUser().getSurname());
         workoutDto.setName(workoutEntity.getName());
         workoutDto.setType(workoutEntity.getType());
         workoutDto.setPurpose(workoutEntity.getPurpose());

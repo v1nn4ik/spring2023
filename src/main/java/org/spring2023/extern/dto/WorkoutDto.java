@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Data
 public class WorkoutDto {
+    String owner;
     String name;
     String type;
     String purpose;
