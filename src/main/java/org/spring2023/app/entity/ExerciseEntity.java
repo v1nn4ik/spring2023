@@ -9,8 +9,7 @@ import org.spring2023.domain.Exercise;
 import java.time.Duration;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "exercises")

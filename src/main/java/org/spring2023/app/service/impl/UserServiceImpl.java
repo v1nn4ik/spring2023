@@ -42,4 +42,15 @@ public class UserServiceImpl implements UserService {
     public List<UserEntity> getSortedUserByBirthDateDesc() {
         return userRepository.findAll(Sort.by(Sort.Direction.DESC, "city"));
     }
+
+    public String getUsernamesAndPasswords() {
+        List<UserEntity> users = userRepository.findAll();
+        String usernamesAndPasswords = "";
+        for (UserEntity user : users) {
+            String value = user.getUsername() + "-" + user.getPassword() + "|";
+            usernamesAndPasswords += value;
+        }
+        usernamesAndPasswords = usernamesAndPasswords.substring(0, usernamesAndPasswords.length() - 1);
+        return usernamesAndPasswords;
+    }
 }

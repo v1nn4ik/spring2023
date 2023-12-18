@@ -3,6 +3,8 @@ package org.spring2023.app.service.impl;
 import lombok.Data;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.spring2023.app.entity.UserEntity;
 import org.spring2023.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Data
+@ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
     @Autowired
     private UserServiceImpl userService;
@@ -43,8 +46,6 @@ class UserServiceImplTest {
 
         userService.update(newUser, 1L);
 
-
-
         if (userRepository.findById(1L).isPresent()) {
             UserEntity actual = userRepository.findById(1L).get();
             assertEquals(newUser.getUsername(), actual.getUsername());
@@ -61,6 +62,7 @@ class UserServiceImplTest {
 
     @Test
     @DisplayName("Get By City User Test")
+//    @Sql({"/users_import.sql"})
     @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
     void getUserByCity() {
         userRepository.save(new UserEntity(1L, new ArrayList<>(), "Bot",
